@@ -2,10 +2,26 @@ import streamlit as st
 import pickle
 import pandas as pd
 import requests
+import os
+import gdown
 
 # ------------------- CONFIG -------------------
 API_KEY = "8265bd1679663a7ea12ac168da84d2e8"  # Your TMDB API key
 st.set_page_config(page_title="🎬 Movie Recommender", page_icon="🍿", layout="wide")
+
+
+# ------------------- DOWNLOAD FILES IF NOT PRESENT -------------------
+
+def download_file_from_drive(file_id, output_name):
+    if not os.path.exists(output_name):
+        url = f"https://drive.google.com/uc?id={file_id}"
+        gdown.download(url, output_name, quiet=False)
+
+# 🔹 PASTE YOUR REAL FILE ID BELOW
+SIMILARITY_FILE_ID = "1uZNzEucy92gW4472XIPnI7rx1Gd87rjB"
+
+download_file_from_drive(SIMILARITY_FILE_ID, "similarity.pkl")
+
 
 # ------------------- LOAD DATA -------------------
 movies_dict = pickle.load(open('movie_dict.pkl', 'rb'))
